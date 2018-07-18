@@ -1,0 +1,12 @@
+base
+lattice
+ggplot2
+caret
+rpart
+rattle
+scales
+randomForest
+corrplot
+plyr
+cluster
+Rmisc
