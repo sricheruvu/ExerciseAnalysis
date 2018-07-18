@@ -7,7 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 rm(list=ls())
-knitr::opts_chunk$set("knitr",echo=TRUE, warning=FALSE, message=FALSE, cache=FALSE, fig.width=10, fig.height=5)
+knitr::opts_chunk$set("knitr",echo=TRUE, warning=FALSE, message=FALSE, cache=TRUE, fig.width=7, fig.height=3)
 options(width=120)
 
 library(caret)
@@ -98,14 +98,14 @@ correlations <- cor(training[, -classeIndex], as.numeric(training$classe))
 bestCorrelations <- subset(as.data.frame(as.table(correlations)), abs(Freq)>0.3)
 bestCorrelations
 ```
-```{r echo=FALSE}
+```{r echo=FALSE, fig.width=10, fig.height=5}
 correlationMatrix <- cor(training[, -classeIndex])
 highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.9, exact=TRUE)
 excludeColumns <- c(highlyCorrelated, classeIndex)
 corrplot(correlationMatrix, method="color", type="lower", order="hclust", tl.cex=0.70, tl.col="black", tl.srt = 45, diag = FALSE)
 ```
 
-We see that there are some features that are quite correlated with each other. We will have a model with these excluded. Even the best correlations with classe are under 0.35. Let's check visually if there is indeed hard to use these 2 as possible simple linear predictors.
+We see that there are some features that are quite correlated with each other. We will have a model with these excluded. Even the best correlations with classe are under 0.35. Let's check visually to see if we can use these 2 as possible simple linear predictors.
 ```{r echo=FALSE}
 p1 <- ggplot(training, aes(classe,pitch_forearm)) + 
   geom_boxplot(aes(fill=classe))
@@ -126,7 +126,7 @@ Starting with a simple model. Train the decision tree model
 rpModelFit <- train(classe ~ ., method="rpart", data=training, model=TRUE)
 rpModelFit$finalModel
 ```
-Next, plot the model
+Next, plot the model.
 ```{r plotRecursivePartModel}
 fancyRpartPlot(rpModelFit$finalModel, sub='')
 ```
@@ -134,7 +134,7 @@ Predict `classe` for cross validation dataset
 ```{r rPathPrediction}
 rpPreds <- predict(rpModelFit, newdata=testing)
 rpConMatrix <- confusionMatrix(rpPreds, testing$classe)
-rpConMatrix
+summary(rpConMatrix)
 ```
 We observe a low accuracy with Recursive partitioning model. 
 ```{r rPathAccuracy}
