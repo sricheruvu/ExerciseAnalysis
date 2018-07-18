@@ -7,7 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 rm(list=ls())
-knitr::opts_chunk$set("knitr",echo=TRUE, warning=FALSE, message=FALSE, cache=TRUE, fig.width=10, fig.height=5)
+knitr::opts_chunk$set("knitr",echo=TRUE, warning=FALSE, message=FALSE, cache=FALSE, fig.width=10, fig.height=5)
 options(width=120)
 
 library(caret)
