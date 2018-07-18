@@ -97,12 +97,12 @@ classeIndex <- which(names(training) == "classe")
 correlations <- cor(training[, -classeIndex], as.numeric(training$classe))
 bestCorrelations <- subset(as.data.frame(as.table(correlations)), abs(Freq)>0.3)
 bestCorrelations
-
+```
+```{r echo=FALSE}
 correlationMatrix <- cor(training[, -classeIndex])
 highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.9, exact=TRUE)
 excludeColumns <- c(highlyCorrelated, classeIndex)
 corrplot(correlationMatrix, method="color", type="lower", order="hclust", tl.cex=0.70, tl.col="black", tl.srt = 45, diag = FALSE)
-
 ```
 
 We see that there are some features that are quite correlated with each other. We will have a model with these excluded. Even the best correlations with classe are under 0.35. Let's check visually if there is indeed hard to use these 2 as possible simple linear predictors.
